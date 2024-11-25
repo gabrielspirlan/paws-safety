@@ -27,8 +27,6 @@ export default function Page() {
       const animais = response.data;
       const idEspecie = '6706d01b4893faa8e07ba536'
       const animaisFiltrados = animais.filter((animal: Animal) => idEspecie.includes(animal.raca?.especie_id))
-
-      console.log(response.data);
       setCachorros(animaisFiltrados);
       setCachorrosFiltrados(animaisFiltrados);
     });

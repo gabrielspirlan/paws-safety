@@ -18,11 +18,10 @@ export const CadastroONG = () => {
     const router = useRouter();
 
     useEffect(() => {
-        // Verifica se o ID da ONG já está armazenado no navegador
         const storedOngId = sessionStorage.getItem("ongId");
 
         if (storedOngId) {
-            router.push("/ong/home"); // Redireciona para a página inicial da ONG
+            router.push("/ong/home");
             alert("Olá, você já está conectado no sistema!")
         }
     }, [router]);
@@ -124,12 +123,10 @@ export const CadastroONG = () => {
         try {
             for (let i = 0; i < imagens.length; i++) {
                 const formData = new FormData();
-                formData.append("file", imagens[i]); // A chave "imagem" pode ser adaptada para o nome esperado no backend
-
-                // Enviar imagem individualmente associada ao ID do animal
+                formData.append("file", imagens[i]);
                 const response = await api.post(`/imagensong/${idOngCadastrada}`, formData, {
                     headers: {
-                        "Content-Type": "multipart/form-data", // Indica que estamos enviando um arquivo
+                        "Content-Type": "multipart/form-data",
                     },
                 });
                 console.log(`Imagem ${i + 1} cadastrada com sucesso:`, response.data);

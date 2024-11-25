@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { formatarTelefoneBanco } from "@/utils/formatarTelefoneBanco";
 import { Ong } from "@/types/ong";
 import { formatarTelefone } from "@/utils/formatarTelefone";
+import { ImageUploadWithDelete } from "../ui/image-upload-with-delete";
 
 
 export const AtualizaOng = () => {
@@ -23,7 +24,7 @@ export const AtualizaOng = () => {
         const storedOngId = sessionStorage.getItem("ongId");
         if (storedOngId) {
             setOngID(storedOngId);
-            api.get(`/ongs/${storedOngId}`).then((response) => {
+            api.get(`/ongs/${storedOngId}/?include=imagens`).then((response) => {
                 console.log(response.data);
                 setOng(response.data);
                 setEmail(ong?.email);
@@ -53,6 +54,8 @@ export const AtualizaOng = () => {
     const [senhaOriginal, setSenhaOriginal] = useState<string>();
     const [documentos, setDocumentos] = useState<string>();
     const [adocoes, setAdocoes] = useState<string>();
+    const [imagens, setImagens] = useState<File[]>([]);
+    const [imagensDeletar, setImagensDeletar] = useState<string[]>([])
 
 
     const handleAtualizarONG = async () => {
@@ -119,15 +122,22 @@ export const AtualizaOng = () => {
 
     return (
 
-        <div className="w-full h-full flex flex-col items-center p-8 gap-2 text-sand-1500 font-semibold text-lg lg:w-11/12 justify-center xl:w-10/12 2xl:w-9/12">
+        <div className="w-full h-full flex flex-col items-center p-8 gap-2 text-sand-1500 font-semibold text-lg lg:w-11/12 justify-center xl:w-10/12">
             <h2 className="text-deep-blue font-semibold text-3xl">Atualização de informações</h2>
-            <div className="flex flex-col gap-8 w-full">
+            <div className="flex flex-col gap-8 w-full mt-4">
                 <div className="flex flex-col 
-                                md:grid gap-8 md:grid-cols-[5fr_7fr]
+                                md:grid gap-8 md:grid-cols-[4fr_5fr]
                                 lg:grid-cols-[3fr_5fr]
-                                2xl:grid-cols-[2fr_5fr]">
-
+                                2xl:grid-cols-[3fr_5fr]">
+                    <div>
+                        <label htmlFor="">Imagens</label>
+                        {
+                            ong &&
+                            <ImageUploadWithDelete initialImages={ong?.imagens} onUpload={() => { }} onDelete={() => { }} />
+                        }
+                    </div>
                     <div className="flex flex-col gap-8">
+
                         <div className="w-full flex flex-col gap-1">
                             <label htmlFor="input" className="text-sand-1500 font-semibold text-lg">Email</label>
                             <Input placeholder="Digite o seu novo email" defaultValue={ong?.email} onChange={(e) => setEmail(e)} />
@@ -137,9 +147,9 @@ export const AtualizaOng = () => {
                             <label htmlFor="input" className="text-sand-1500 font-semibold text-lg">Senha</label>
                             <Input placeholder="Digite a sua nova senha" password onChange={(e) => setSenha(e)} />
                         </div>
-                    </div>
 
-                    <div className="flex flex-col gap-8">
+
+
                         <div className="w-full flex flex-col gap-1">
                             <label htmlFor="input" className="text-sand-1500 font-semibold text-lg">Razão Social</label>
                             <Input placeholder="Digite a razão social do animal" defaultValue={ong?.razao_social} onChange={(e) => setRazaoSocial(e)} />

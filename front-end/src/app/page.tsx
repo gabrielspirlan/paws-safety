@@ -23,7 +23,6 @@ export default function Home() {
     if (conexao) setOngID(conexao);
 
     api.get("/animais/disponiveis/?include=raca,imagens").then((response) => {
-      console.log(response.data);
       setAnimaisBanco(response.data.slice(0,12));
     });
   }, []); 

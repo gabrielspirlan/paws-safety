@@ -30,7 +30,6 @@ export default function Home() {
     const ongId = sessionStorage.getItem("ongId");
     const nome = sessionStorage.getItem("nomeOng");
     setNomeOng(nome || "")
-    console.log(ongId)
     if (ongId) {
       api.get(`/animais/ong/${ongId}?include=raca,imagens`).then((response) => {
         if (response.data.length === 0) {
@@ -102,11 +101,8 @@ export default function Home() {
   }
 
   const handleEspecieGato = async () => {
-    console.log("Funcção para atualizar Gatos")
     if (especie !== "Gato") {
-      console.log("Atualizou para GATO")
       setEspecie("Gato")
-      console.log(especie)
       setFiltrados({ especieAtual: "Gato", sexoAtual: sexo, porteAtual: porte, adotadoAtual: adotado })
     } else {
       setEspecie("");
@@ -162,14 +158,11 @@ export default function Home() {
   }
   const setFiltrados = ({ especieAtual, porteAtual, sexoAtual, adotadoAtual }: typeFiltrados) => {
     let filtrados = [...animais];
-    console.log(especie)
 
     if (especieAtual == "Gato") {
       filtrados = filtrados.filter(animal => animal.raca.especie_id == "6706d01f4893faa8e07ba537");
-      console.log("Filtrou pelos Gatos")
     } else if (especieAtual == "Cachorro") {
       filtrados = filtrados.filter(animal => animal.raca.especie_id == "6706d01b4893faa8e07ba536");
-      console.log("Filtrou pelos Cachorros")
     }
 
     if (porteAtual === "Pequeno") {

@@ -7,11 +7,11 @@ import { Input } from "@/components/ui/input";
 import { InputGrande } from "@/components/ui/inputGrande";
 import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
-import { ImageUpload } from "@/components/ui/image-upload";
 import { api } from "@/conection/api";
 import { AxiosError } from "axios";
 import { useParams, useRouter } from "next/navigation";
 import { Animal } from "@/types/animal";
+import { ImageUploadWithDelete } from "../ui/image-upload-with-delete";
 
 export const AtualizarAnimal = () => {
     const router = useRouter();
@@ -31,22 +31,20 @@ export const AtualizarAnimal = () => {
     const [descricao, setDescricao] = useState<string>();
     const [comportamento, setComportamento] = useState<string>();
     const [adotado, setAdotado] = useState<boolean>(false);
+    const [imagensDeletar, setImagensDeletar] = useState<string[]>([])
 
     useEffect(() => {
         const fetchAnimalData = async () => {
             const storedOngId = sessionStorage.getItem("ongId");
-            console.log("PARAMS: ", params.id);
 
             if (storedOngId) {
                 if (params.id) {
                     try {
-                        const response = await api.get(`/animais/${params.id}/?include=raca`);
-                        console.log(response.data);
+                        const response = await api.get(`/animais/${params.id}/?include=raca,imagens`);
+
                         setAnimal(response.data);
 
                         if (response.data?.ong_id !== storedOngId) {
-                            console.log("AnimalONG: ", response.data?.ong_id);
-                            console.log("ONG salva ", storedOngId);
                             alert("Você não possui permissão para alterar esse animal");
                             router.push('/');
                             return;
@@ -91,6 +89,10 @@ export const AtualizarAnimal = () => {
                 if (response && imagens.length > 0 && animal?.id) {
                     await HandleCadastrarImagens(animal.id);
                 }
+
+                if (imagensDeletar.length > 0) {
+                    removeImages(imagensDeletar);
+                }
                 alert("Animal atualizado com sucesso!")
                 if (animal?.id) router.push(`/animal/${animal.id}`)
 
@@ -103,6 +105,7 @@ export const AtualizarAnimal = () => {
                     alert("Ocorreu um erro inesperado. Tente novamente.");
                 }
             }
+
         } else {
             alert("CADASTRO FALTANDO INFORMAÇÕES");
         }
@@ -121,7 +124,6 @@ export const AtualizarAnimal = () => {
                         "Content-Type": "multipart/form-data",
                     },
                 });
-                console.log(`Imagem ${i + 1} cadastrada com sucesso:`, response.data);
             }
         } catch (error) {
             if (error instanceof AxiosError) {
@@ -134,6 +136,22 @@ export const AtualizarAnimal = () => {
         }
     }
 
+    const removeImages = async (imageIds: string[]) => {
+        try {
+            const deletePromises = imageIds.map(async (id) => {
+                await api.delete(`/imagensanimal/${id}`);
+                return id;
+            });
+            const deletedIds = await Promise.all(deletePromises);
+        } catch (error) {
+            console.error(
+                "Erro ao excluir imagens:",
+                error instanceof AxiosError ? error.response?.data : error
+            );
+        }
+    };
+
+
     return (
         <div className="w-full h-full flex flex-col items-center p-8 gap-2 text-sand-1500 font-semibold text-lg lg:w-11/12 justify-center xl:w-10/12 2xl:w-9/12">
             <h2 className="text-deep-blue font-semibold text-3xl">Atualizar Animal</h2>
@@ -143,7 +161,15 @@ export const AtualizarAnimal = () => {
                                 xl:grid-cols-[1fr_2fr]">
                     <form className="flex flex-col w-full gap-1">
                         <label>Fotos do Animal</label>
-                        <ImageUpload onImagesChange={setImagens} />
+                        {
+                            animal &&
+                            <ImageUploadWithDelete
+                                initialImages={animal?.imagens || []}
+                                onUpload={(newImages) => setImagens((prev) => [...prev, ...newImages])}
+                                onDelete={(ids) => setImagensDeletar((prev) => [...prev, ...ids])}
+                            />
+                        }
+
                     </form>
                     <div className="flex flex-col gap-8">
                         <div className="w-full flex flex-col gap-1">

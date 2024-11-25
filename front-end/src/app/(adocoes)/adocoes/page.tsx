@@ -22,7 +22,6 @@ export default function Page() {
   const skeleton = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   useEffect(() => {
     api.get("/animais/disponiveis/?include=raca,imagens").then((response) => {
-      console.log(response.data);
       setAnimais(response.data);
       setAnimaisFiltrados(response.data)
     });
@@ -79,11 +78,8 @@ export default function Page() {
   }
 
   const handleEspecieGato = async () => {
-    console.log("Funcção para atualizar Gatos")
     if (especie !== "Gato") {
-      console.log("Atualizou para GATO")
       setEspecie("Gato")
-      console.log(especie)
       setFiltrados({ especieAtual: "Gato", sexoAtual: sexo, porteAtual: porte })
     } else {
       setEspecie("");
@@ -116,14 +112,11 @@ export default function Page() {
   }
   const setFiltrados = ({ especieAtual, porteAtual, sexoAtual }: typeFiltrados) => {
     let filtrados = [...animais];
-    console.log(especie)
 
     if (especieAtual == "Gato") {
       filtrados = filtrados.filter(animal => animal.raca.especie_id == "6706d01f4893faa8e07ba537");
-      console.log("Filtrou pelos Gatos")
     } else if (especieAtual == "Cachorro") {
       filtrados = filtrados.filter(animal => animal.raca.especie_id == "6706d01b4893faa8e07ba536");
-      console.log("Filtrou pelos Cachorros")
     }
 
     if (porteAtual === "Pequeno") {
