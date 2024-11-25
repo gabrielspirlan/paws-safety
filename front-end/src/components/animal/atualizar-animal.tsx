@@ -26,11 +26,12 @@ export const AtualizarAnimal = () => {
     const [sexo, setSexo] = useState<string>();
     const [dataNascimento, setDataNascimento] = useState<string>();
     const [vacinas, setVacinas] = useState<string>();
-    const [imagens, setImagens] = useState<File[]>([]);
+
     const [raca, setRaca] = useState<string>();
     const [descricao, setDescricao] = useState<string>();
     const [comportamento, setComportamento] = useState<string>();
     const [adotado, setAdotado] = useState<boolean>(false);
+    const [imagens, setImagens] = useState<File[]>([]);
     const [imagensDeletar, setImagensDeletar] = useState<string[]>([])
 
     useEffect(() => {

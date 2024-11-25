@@ -59,8 +59,6 @@ export const AtualizaOng = () => {
 
 
     const handleAtualizarONG = async () => {
-
-
         if (nome && razaoSocial && bairro && cep && estado && cidade && logradouro && descricao &&
             procedimento && documentos && adocoes && whatsApp && cnpj && pix && horario) {
 
@@ -102,6 +100,8 @@ export const AtualizaOng = () => {
             try {
 
                 await api.put(`/ongs/${ongID}`, cadastro);
+                if (ongID) await HandleCadastrarImagens(ongID);
+                if (imagensDeletar) await removeImages(imagensDeletar)
 
                 alert("Atualização realizada com sucesso!")
                 router.push('/ong/home')
@@ -120,6 +120,47 @@ export const AtualizaOng = () => {
         }
     };
 
+
+    const HandleCadastrarImagens = async (idOngCadastrada: string) => {
+        try {
+            for (let i = 0; i < imagens.length; i++) {
+                const formData = new FormData();
+                formData.append("file", imagens[i]);
+                const response = await api.post(`/imagensong/${idOngCadastrada}`, formData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                });
+                console.log(`Imagem ${i + 1} cadastrada com sucesso:`, response.data);
+            }
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                console.error("Erro ao cadastrar imagens:", error.response?.data || error.message);
+                alert("Erro ao cadastrar as imagnes. Tente novamente.");
+            } else {
+                console.error("Erro inesperado: ", error);
+                alert("Ocorreu um erro inesperado ao cadastrar as imagens. Tente novamente.");
+            }
+        }
+    }
+
+    const removeImages = async (imageIds: string[]) => {
+        console.log(imageIds)
+        try {
+            const deletePromises = imageIds.map(async (id) => {
+                await api.delete(`/imagensong/${id}`);
+                return id;
+            });
+            const deletedIds = await Promise.all(deletePromises);
+        } catch (error) {
+            console.error(
+                "Erro ao excluir imagens:",
+                error instanceof AxiosError ? error.response?.data : error
+            );
+        }
+    };
+
+
     return (
 
         <div className="w-full h-full flex flex-col items-center p-8 gap-2 text-sand-1500 font-semibold text-lg lg:w-11/12 justify-center xl:w-10/12">
@@ -131,10 +172,13 @@ export const AtualizaOng = () => {
                                 2xl:grid-cols-[3fr_5fr]">
                     <div>
                         <label htmlFor="">Imagens</label>
-                        {
-                            ong &&
-                            <ImageUploadWithDelete initialImages={ong?.imagens} onUpload={() => { }} onDelete={() => { }} />
+                        {ong?.imagens &&
+                            <ImageUploadWithDelete initialImages={ong?.imagens}
+                                onUpload={(newImages) => setImagens((prev) => [...prev, ...newImages])}
+                                onDelete={(ids) => setImagensDeletar((prev) => [...prev, ...ids])}
+                            />
                         }
+
                     </div>
                     <div className="flex flex-col gap-8">
 

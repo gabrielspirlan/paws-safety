@@ -30,7 +30,6 @@ export const ImageUpload = ({ onImagesChange }: ImageUploadProps) => {
     
         const updatedImages = [...previewImages, ...newImages];
         setPreviewImages(updatedImages);
-        // Atualiza as imagens no componente pai fora do `setState`
         onImagesChange(updatedImages.map(image => image.file));
     };
     

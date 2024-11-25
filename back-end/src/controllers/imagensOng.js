@@ -10,23 +10,21 @@ const controller = {}
 controller.upload = async function (req, res) {
     try {
         const uploadPath = path.resolve('src/public/imagens/ongs');
-
-        // Verifique se o diretório existe; caso contrário, crie-o
         if (!fs.existsSync(uploadPath)) {
             fs.mkdirSync(uploadPath, { recursive: true });
         }
 
         const storage = multer.diskStorage({
             destination: function (req, file, cb) {
-                cb(null, uploadPath); // Diretório onde as imagens serão salvas
+                cb(null, uploadPath);
             },
             filename: function (req, file, cb) {
                 const uniqueName = `${Date.now()}-${file.originalname}`;
-                cb(null, uniqueName); // Nome único para o arquivo
+                cb(null, uniqueName);
             }
         });
 
-        const upload = multer({ storage }).single('file'); // 'file' é o nome do campo esperado no formulário
+        const upload = multer({ storage }).single('file');
 
         upload(req, res, async function (err) {
             if (err instanceof multer.MulterError) {
@@ -35,7 +33,7 @@ controller.upload = async function (req, res) {
                 return res.status(500).send({ error: 'Erro inesperado', details: err });
             }
 
-            const filePath = `${process.env.IMAGE_URL}/imagens/ongs/${req.file.filename}`;
+            const filePath = `${process.env.IMAGE_URL}/public/imagens/ongs/${req.file.filename}`;
 
             try {
                 await prisma.imagemOng.create({
