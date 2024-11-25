@@ -61,7 +61,7 @@ controller.retrieveAllAvailable = async function (req, res) {
     const include = includeRelations(req.query)
     try {
         const result = await prisma.animal.findMany({
-            where: [{ adotado: 'false' }],
+            where: { adotado: false },
             orderBy: [{ nome: 'asc' }],
             include
         })
