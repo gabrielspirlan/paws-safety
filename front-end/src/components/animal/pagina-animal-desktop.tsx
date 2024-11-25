@@ -9,6 +9,8 @@ import { InformacoesAnimal } from "@/components/animal/descricoes/informacoes-an
 import { useParams } from "next/navigation";
 import { api } from "@/conection/api";
 import { useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPaw } from "@fortawesome/free-solid-svg-icons";
 
 
 export const PaginaAnimalDesktop = () => {
@@ -29,6 +31,7 @@ export const PaginaAnimalDesktop = () => {
         <div className="min-h-screen p-6 flex w-full lg:w-3/4 items-center justify-center">
             {animal && animal.ong && (
                 <div className="gap-3 md:gap-6 justify-center itesm-center grid grid-cols-[2fr_3fr]">
+
                     <div className="flex flex-col gap-8">
                         <FotoAnimal animal={animal} />
                         <DescricaoAnimal animal={animal} />
@@ -45,7 +48,15 @@ export const PaginaAnimalDesktop = () => {
                                     xl:text-8xl">
                                     {animal.nome}
                                 </h2>
+
                             </div>
+                            {
+                                animal.adotado == true &&
+                                <div className="flex flex-row items-center gap-1 text-base text-sand-1500 text-bold bg-sand-600 p-3 w-fit rounded-2xl">
+                                    <FontAwesomeIcon icon={faPaw} />
+                                    <p>Animal já adotado</p>
+                                </div>
+                            }
                             <InformacoesAnimal animal={animal} />
                             <Link target='_blank' className="mt-1 2xl:mt-0" href={`https://wa.me/${animal.ong.whatsapp}`}>
                                 <Button size={0} label="Quero adotar" />

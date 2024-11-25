@@ -22,9 +22,9 @@ export default function Home() {
     const conexao = sessionStorage.getItem("ongId")
     if (conexao) setOngID(conexao);
 
-    api.get("/animais/?include=raca,imagens").then((response) => {
+    api.get("/animais/disponiveis/?include=raca,imagens").then((response) => {
       console.log(response.data);
-      setAnimaisBanco(response.data);
+      setAnimaisBanco(response.data.slice(0,12));
     });
   }, []); 
 
@@ -54,8 +54,6 @@ export default function Home() {
           </div>
         </div>
       </main>
-
-      {/* Footer sempre ao final */}
       <Footer />
     </div>
   );

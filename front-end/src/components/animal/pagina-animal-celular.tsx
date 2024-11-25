@@ -3,7 +3,7 @@ import { Animal } from "@/types/animal"
 import { FotoAnimal } from "./fotos-animal"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Button } from "@/components/ui/button";
-import { faMars, faVenus } from "@fortawesome/free-solid-svg-icons";
+import { faMars, faPaw, faVenus } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { api } from "@/conection/api";
@@ -34,13 +34,24 @@ export const PaginaAnimalCelular = () => {
                     <div className="flex flex-col gap-3">
                         <div className="flex items-center w-full justify-between">
                             <h2 className="text-deep-blue font-semibold text-6xl lg:text-8xl">{animal.nome}</h2>
+                            {
+                                animal.adotado == true &&
+                                <div className="flex flex-row items-center gap-1 text-base text-sand-1500 text-bold bg-sand-600 p-3 w-fit rounded-2xl">
+                                    <FontAwesomeIcon icon={faPaw} />
+                                    <p>Animal já adotado</p>
+                                </div>
+                            }
+
                             {animal.sexo === "M" && (
                                 <FontAwesomeIcon className="text-5xl lg:text-6xl text-blue-500" icon={faMars} />
                             )}
+
                             {animal.sexo === "F" && (
                                 <FontAwesomeIcon className="text-5xl text-rose-500" icon={faVenus} />
                             )}
+
                         </div>
+
                         <div className="w-full">
                             <FotoAnimal animal={animal} />
                         </div>

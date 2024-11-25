@@ -23,7 +23,7 @@ export default function Page() {
   
 
   useEffect(() => {
-    api.get("/animais/?include=raca,imagens").then((response) => {
+    api.get("/animais/disponiveis/?include=raca,imagens").then((response) => {
       const animais = response.data;
       const idEspecie = '6706d01f4893faa8e07ba537'
       const animaisFiltrados = animais.filter((animal: Animal) => idEspecie.includes(animal.raca?.especie_id))

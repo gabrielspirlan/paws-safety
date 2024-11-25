@@ -21,7 +21,7 @@ export default function Page() {
 
   const skeleton = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   useEffect(() => {
-    api.get("/animais/?include=raca,imagens").then((response) => {
+    api.get("/animais/disponiveis/?include=raca,imagens").then((response) => {
       console.log(response.data);
       setAnimais(response.data);
       setAnimaisFiltrados(response.data)
