@@ -19,8 +19,7 @@ export const formatDate = (date: Date) => {
     for (const { unit, milliseconds } of units) {
         const difference = diffInMiliseconds / milliseconds;
         if (Math.abs(difference) >= 1) {
-            const rtf = new Intl.RelativeTimeFormat('pt-BR', { numeric: 'auto' });
-            // Removendo "há" do retorno
+            const rtf = new Intl.RelativeTimeFormat('pt-BR', { numeric: 'always' });
             return rtf.format(Math.round(difference), unit).replace(/^há\s/i, '');
         }
     }

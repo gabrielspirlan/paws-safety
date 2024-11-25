@@ -4,6 +4,7 @@ import controller from '../controllers/animais.js'
 const router = Router()
 
 router.get('/', controller.retrieveAll)
+router.get('/disponiveis', controller.retrieveAllAvailable)
 router.get('/:id', controller.retrieveOne)
 router.get('/ong/:id', controller.retrieveAllByOng)
 router.post('/', controller.create)

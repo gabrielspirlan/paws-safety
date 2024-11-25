@@ -30,6 +30,7 @@ export const AtualizarAnimal = () => {
     const [raca, setRaca] = useState<string>();
     const [descricao, setDescricao] = useState<string>();
     const [comportamento, setComportamento] = useState<string>();
+    const [adotado, setAdotado] = useState<boolean>(false);
 
     useEffect(() => {
         const fetchAnimalData = async () => {
@@ -53,6 +54,7 @@ export const AtualizarAnimal = () => {
                         setEspecie(response.data.raca.especie_id === "6706d01f4893faa8e07ba537" ? "Gato" : "Cachorro");
                         setPorte(response.data.porte);
                         setSexo(response.data.sexo);
+                        setAdotado(response.data.adotado);
                     } catch (error) {
                         console.error("Erro ao buscar os dados do animal:", error);
                         alert("Erro ao carregar os dados do animal.");
@@ -78,7 +80,7 @@ export const AtualizarAnimal = () => {
                 porte: porte,
                 data_nascimento: new Date(dataNascimento),
                 vacinas: vacinas,
-                adotado: false,
+                adotado: adotado,
                 comportamento: comportamento,
                 descricao: descricao
             };
@@ -90,7 +92,7 @@ export const AtualizarAnimal = () => {
                     await HandleCadastrarImagens(animal.id);
                 }
                 alert("Animal atualizado com sucesso!")
-                if(animal?.id) router.push(`/animal/${animal.id}`)
+                if (animal?.id) router.push(`/animal/${animal.id}`)
 
             } catch (error) {
                 if (error instanceof AxiosError) {
@@ -148,6 +150,12 @@ export const AtualizarAnimal = () => {
                             <label htmlFor="input" className="text-sand-1500 font-semibold text-lg">Nome</label>
                             <Input placeholder="Digite o nome do animal" defaultValue={animal?.nome} onChange={(e) => setNome(e)} />
                         </div>
+                        <div className="flex flex-col w-full">
+                            <label>Adoção</label>
+                            <div className="flex flex-row gap-10">
+                                <CheckBox checked={adotado} option={"Marcar animal como adotado"} onClick={() => setAdotado(adotado == false ? true : false)} />
+                            </div>
+                        </div>
 
                         <div className="flex flex-col w-full">
                             <label>O animal é um:</label>
@@ -156,6 +164,8 @@ export const AtualizarAnimal = () => {
                                 <CheckBox checked={especie === "Cachorro" ? true : false} option={"Cachorro"} onClick={() => setEspecie("Cachorro")} />
                             </div>
                         </div>
+
+
 
                         <div className="flex flex-col w-full gap-1">
                             <label>Qual o porte do animal?</label>

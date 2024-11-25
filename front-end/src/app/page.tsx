@@ -14,7 +14,7 @@ import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [ongID, setOngID] = useState<string>();
-  const [animaisBanco, setAnimaisBanco] = useState([]);
+  const [animaisBanco, setAnimaisBanco] = useState<Animal[]>([]);
   const skeleton = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   const router = useRouter ();
   useEffect(() => {

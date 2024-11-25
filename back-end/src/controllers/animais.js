@@ -57,6 +57,21 @@ controller.retrieveAll = async function (req, res) {
     }
 }
 
+controller.retrieveAllAvailable = async function (req, res) {
+    const include = includeRelations(req.query)
+    try {
+        const result = await prisma.animal.findMany({
+            where: [{ adotado: 'false' }],
+            orderBy: [{ nome: 'asc' }],
+            include
+        })
+        res.send(result) // HTTP 200 ~> IMPLÍCITO
+    } catch (error) {
+        console.error(error)
+        res.status(500).send(error)
+    }
+}
+
 controller.retrieveOne = async function (req, res) {
 
     const include = includeRelations(req.query)

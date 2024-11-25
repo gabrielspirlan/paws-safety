@@ -5,8 +5,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { Animal } from "@/types/animal";
-import { formatDate } from "@/utils/formatDate";
-import { converterData } from "@/utils/converterData";
 
 type Props = {
     animal: Animal,
@@ -27,23 +25,16 @@ export const CardAnimalOng = ({ animal }: Props) => {
             <div className="w-full p-4 h-1/2 flex flex-col gap-2 justify-around">
                 <div className="flex justify-between items-center -mt-1">
                     {
-                        animal.data_nascimento &&
-                        <div className='font-light '>{formatDate(converterData(animal.data_nascimento))}</div>
+                        <div className={`${animal.adotado ? "text-deep-blue-500" : "text-sand-1500" }`} >{animal.adotado ? "Adotado" : "Disponível"}</div>
                     }
-                    {
-                        animal.idade_anos && !animal.data_nascimento &&
-                        <div className='font-light '>{animal.idade_anos} anos</div>
-                    }
-                    {
-                        !animal.idade_anos && animal.idade_meses && !animal.data_nascimento &&
-                        <div className='font-light '>{animal.idade_meses} meses</div>
-                    }
+
                     <FontAwesomeIcon
                         icon={animal.sexo === 'F' ? faVenus : faMars}
                         className={animal.sexo === 'F' ? 'text-rose-500' : 'text-blue-700'}
                     />
                 </div>
                 <div className="text-center">
+
                     <div className="font-bold text-xl">{animal.nome}</div>
                     <div className="font-light">{animal.raca?.nome}</div>
                 </div>
