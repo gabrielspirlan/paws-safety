@@ -10,16 +10,15 @@ import { useRouter } from "next/navigation";
 
 export const LoginForm = () => {
     const router = useRouter();
-    const [ong, setOng] = useState<Ong | null>(null); // Armazenar a ONG retornada
+    const [ong, setOng] = useState<Ong | null>(null);
     const [emailLogin, setEmailLogin] = useState<string>("");
     const [senhaLogin, setSenhaLogin] = useState<string>("");
 
     useEffect(() => {
-        // Verifica se o ID da ONG já está armazenado no navegador
         const storedOngId = sessionStorage.getItem("ongId");
 
         if (storedOngId) {
-            router.push("/ong/home"); // Redireciona para a página inicial da ONG
+            router.push("/ong/home");
             alert("Olá, você já está conectado no sistema!")
         }
     }, [router]);
@@ -27,7 +26,7 @@ export const LoginForm = () => {
     const acessoTeste = () => {
         sessionStorage.setItem("ongId", "673b8e707273bb6eaee64510");
         sessionStorage.setItem("nomeOng", "PawsSafety");
-        router.push("/ong/home"); // Redireciona para a página inicial da ONG
+        router.push("/ong/home");
     }
 
     const login = async () => {

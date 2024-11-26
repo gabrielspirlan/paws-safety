@@ -7,7 +7,7 @@ import { faCloudUploadAlt, faTimesCircle } from "@fortawesome/free-solid-svg-ico
 type PreviewImage = {
     id: string;
     url: string;
-    file: File; // Adicionado para armazenar o arquivo original
+    file: File;
 };
 
 type ImageUploadProps = {
@@ -39,7 +39,6 @@ export const ImageUpload = ({ onImagesChange }: ImageUploadProps) => {
     const removeImage = (id: string) => {
         const updatedImages = previewImages.filter(image => image.id !== id);
         setPreviewImages(updatedImages);
-        // Atualiza as imagens no componente pai fora do `setState`
         onImagesChange(updatedImages.map(image => image.file));
     };
     

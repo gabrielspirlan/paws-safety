@@ -2,7 +2,7 @@
 
 ## URL de Conexão com o Banco de Dados
 
-Base URL: [https://dsm-g06-pi3-2024-2-production.up.railway.app/](https://dsm-g06-pi3-2024-2-production.up.railway.app/)
+Base URL: [https://paws-safety-coditec-production.up.railway.app/](https://paws-safety-coditec-production.up.railway.app/)
 
 ---
 

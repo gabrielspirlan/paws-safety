@@ -16,11 +16,10 @@ export const CadastroForm = () => {
     const router = useRouter();
 
     useEffect(() => {
-        // Verifica se o ID da ONG já está armazenado no navegador
         const storedOngId = sessionStorage.getItem("ongId");
 
         if (storedOngId) {
-            router.push("/ong/home"); // Redireciona para a página inicial da ONG
+            router.push("/ong/home");
             alert("Olá, você já está conectado no sistema!")
         }
     }, [router]);

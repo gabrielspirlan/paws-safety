@@ -2,15 +2,22 @@
 
 type Props = {
     label: string;
-    onClick?: () => void;
+    onClick?: () => Promise<void> | void;
     size: 0 | 1 | 2 | 3;
     red?: boolean
 }
 
 export const Button = ({ label, onClick, size, red }: Props) => {
+    const handleClick = async (event: React.MouseEvent<HTMLDivElement>) => {
+        event.stopPropagation();
+        if (onClick) {
+            await onClick();
+        }
+    };
+
     return (
         <div
-            onClick={onClick}
+            onClick={handleClick}
             className={`
                 ${red ? "active:bg-red-900" : "active:bg-deep-blue-1000"}
                 inline-flex
@@ -22,13 +29,14 @@ export const Button = ({ label, onClick, size, red }: Props) => {
                 font-semibold
                 text-center
                 rounded-full
-                 shadow-sm
-                    ${size === 0 && "2xl:py-4 2xl:px-6 py-3 px-6 text-lg lg:text-xl xl:text-2xl 2xl:text-3xl"}
-                    ${size === 1 && "py-3 px-6 text-lg"}
-                    ${size === 2 && "py-3 px-6 text-base"}
-                    ${size === 3 && "py-2 px-4 text-xs"} 
-                `}>
+                shadow-sm
+                ${size === 0 && "2xl:py-4 2xl:px-6 py-3 px-6 text-lg lg:text-xl xl:text-2xl 2xl:text-3xl"}
+                ${size === 1 && "py-3 px-6 text-lg"}
+                ${size === 2 && "py-3 px-6 text-base"}
+                ${size === 3 && "py-2 px-4 text-xs"}
+            `}
+        >
             {label}
         </div>
     );
-}
+};

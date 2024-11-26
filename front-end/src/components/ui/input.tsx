@@ -22,13 +22,10 @@ export const Input = ({
     onChange,
     type = "text",
 }: Props) => {
-
     const [value, setValue] = useState<string>(defaultValue || "");
-
     const [showPassword, setShowPassword] = useState(false);
 
     useEffect(() => {
-  
         setValue(defaultValue || "");
         if (onChange && defaultValue) {
             onChange(defaultValue);
@@ -61,14 +58,11 @@ export const Input = ({
         const inputValue = e.target.value;
         const formattedValue = formatValue(inputValue, type);
         setValue(formattedValue);
-        if (onChange) onChange(formattedValue); 
+        if (onChange) onChange(formattedValue);
     };
 
     return (
-        <div
-            className="w-full flex items-center p-3 has-[:focus]:border-sand-1400 bg-sand-300 text-sand-1400 font-semibold text-sm
-                        rounded-full h-14 border-2 border-sand-300"
-        >
+        <div className="w-full flex items-center p-3 has-[:focus]:border-sand-1400 bg-sand-300 text-sand-1400 font-semibold text-sm rounded-full h-14 border-2 border-sand-300 relative">
             {icon && <FontAwesomeIcon className="size-5" icon={icon} />}
             <input
                 className="placeholder-sand-900 flex-1 outline-none h-full px-4 bg-transparent"
@@ -81,7 +75,7 @@ export const Input = ({
                 <FontAwesomeIcon
                     onClick={() => setShowPassword(!showPassword)}
                     icon={showPassword ? faEye : faEyeSlash}
-                    className="cursor-pointer mr-3 size-5"
+                    className="cursor-pointer absolute right-4 top-1/2 transform -translate-y-1/2 size-5"
                 />
             )}
         </div>
