@@ -2,7 +2,7 @@
 
 ## URL de Conexão com o Banco de Dados
 
-Base URL: [https://paws-safety-coditec-production.up.railway.app/](https://paws-safety-coditec-production.up.railway.app/)
+Base URL: [[https://paws-safety-coditec-production.up.railway.app/](https://paws-safety-api.vercel.app/)]([https://paws-safety-coditec-production.up.railway.app/](https://paws-safety-api.vercel.app/))
 
 ---
 
